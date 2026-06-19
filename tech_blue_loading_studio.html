@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科幻蓝 loading 动态图工坊 - Tech-Blue Loading Studio</title>
+    <!-- Tailwind CSS for modern rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for premium futuristic appearance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for sleek modern icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            overflow-x: hidden;
+        }
+        .tech-font {
+            font-family: 'Share Tech Mono', monospace;
+        }
+        /* Custom Glowing effects */
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.8), 0 0 20px rgba(6, 182, 212, 0.4);
+        }
+        .neon-box-blue {
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.3), inset 0 0 15px rgba(37, 99, 235, 0.1);
+        }
+        .grid-bg {
+            background-image: linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1329;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e3a8a;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+
+        /* --- STYLES ANIMATIONS --- */
+        /* CSS Style 1: Concentric Rings Rotate */
+        @keyframes spin-clockwise {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spin-counter {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .spin-cw {
+            animation: spin-clockwise var(--speed, 2s) linear infinite;
+        }
+        .spin-ccw {
+            animation: spin-counter var(--speed, 3s) linear infinite;
+        }
+        
+        /* CSS Style 3: Hexagonal Core Pulse */
+        @keyframes hex-pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            50% { transform: scale(1.15) rotate(180deg); opacity: 1; }
+        }
+        .hex-pulse-anim {
+            animation: hex-pulse var(--speed, 2.5s) ease-in-out infinite;
+            transform-origin: center;
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen grid-bg relative">
+    
+    <!-- Background Futuristic Glows -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full filter blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full filter blur-[100px] pointer-events-none"></div>
+
+    <div class="container mx-auto px-4 py-6 max-w-7xl relative z-10">
+        
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-blue-900/30 pb-5">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-atom text-white text-2xl animate-spin" style="animation-duration: 6s"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 tech-font">
+                        NEXUS LOADER STUDIO
+                    </h1>
+                    <p class="text-xs text-slate-400 tracking-widest uppercase">纯几何科技蓝加载动画工作坊</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3 text-xs tech-font">
+                <span class="px-3 py-1 bg-blue-950/80 border border-blue-800/50 rounded-full text-cyan-400">
+                    SYSTEM: ACTIVE <i class="fa-solid fa-circle text-[8px] animate-pulse ml-1 text-green-400"></i>
+                </span>
+                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-slate-400">
+                    v3.1.0 (GIF EXPORTER FIX)
+                </span>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Panel: Controls & Customization (5 Cols) -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Card 1: Select Style -->
+                <div class="bg-slate-950/80 border border-blue-900/40 rounded-2xl p-6 neon-box-blue backdrop-blur-md">
+                    <h2 class="text-lg font-semibold mb-4 text-cyan-400 flex items-center">
+                        <i class="fa-solid fa-sliders mr-2"></i> 1. 选择科技蓝几何载入动效
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 gap-3" id="styleSelector">
+                        <!-- Style 1 -->
+                        <button onclick="selectStyle(1)" id="btn-style-1" class="w-full flex items-center justify-between p-4 rounded-xl border border-blue-900/40 bg-blue-950/20 text-left transition-all hover:bg-blue-900/20 hover:border-cyan-500/50 active-style-btn">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-blue-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                                    <i class="fa-solid fa-circle-notch text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-sm text-white">量子轨道光环 (Concentric Rings)</h3>
+                                    <p class="text-xs text-slate-400">精细矢量SVG，三轨逆向自转，科技质感最强</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-cyan-400"></i>
+                        </button>
+
+                        <!-- Style 2 -->
+                        <button onclick="selectStyle(2)" id="btn-style-2" class="w-full flex items-center justify-between p-4 rounded-xl border border-transparent bg-slate-900/40 text-left transition-all hover:bg-blue-900/20 hover:border-cyan-500/50">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-blue-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                                    <i class="fa-solid fa-circle-radiation text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-sm text-slate-300">战术全息雷达 (Tactical Radar)</h3>
+                                    <p class="text-xs text-slate-400">Canvas高级渲染，雷达波束扫掠，适合军工重工风</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-600"></i>
+                        </button>
+
+                        <!-- Style 3 -->
+                        <button onclick="selectStyle(3)" id="btn-style-3" class="w-full flex items-center justify-between p-4 rounded-xl border border-transparent bg-slate-900/40 text-left transition-all hover:bg-blue-900/20 hover:border-cyan-500/50">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-blue-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                                    <i class="fa-solid fa-vector-square text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-sm text-slate-300">量子矩阵六角 (Hexagonal Core)</h3>
+                                    <p class="text-xs text-slate-400">双层嵌套六角蜂巢，呼吸律动效果，现代网络风格</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-600"></i>
+                        </button>
+
+                        <!-- Style 4 -->
+                        <button onclick="selectStyle(4)" id="btn-style-4" class="w-full flex items-center justify-between p-4 rounded-xl border border-transparent bg-slate-900/40 text-left transition-all hover:bg-blue-900/20 hover:border-cyan-500/50">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-blue-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                                    <i class="fa-solid fa-meteor text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-sm text-slate-300">星环粒子涡流 (Particle Vortex)</h3>
+                                    <p class="text-xs text-slate-400">Canvas物理粒子微尘，向心吸积，超高清流光视觉</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-600"></i>
+                        </button>
+
+                        <!-- Style 5 -->
+                        <button onclick="selectStyle(5)" id="btn-style-5" class="w-full flex items-center justify-between p-4 rounded-xl border border-transparent bg-slate-900/40 text-left transition-all hover:bg-blue-900/20 hover:border-cyan-500/50">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-blue-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                                    <i class="fa-solid fa-dna text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-sm text-slate-300">生命双螺旋链 (Cyber DNA)</h3>
+                                    <p class="text-xs text-slate-400">3D投影质感，DNA模型旋转，适用于生物科技或AI</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-600"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Card 2: Customization Parameters -->
+                <div class="bg-slate-950/80 border border-blue-900/40 rounded-2xl p-6 neon-box-blue backdrop-blur-md">
+                    <h2 class="text-lg font-semibold mb-4 text-cyan-400 flex items-center">
+                        <i class="fa-solid fa-palette mr-2"></i> 2. 动力及色调参数微调
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <!-- Color Preset -->
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-2 uppercase tracking-wider">科技色调偏好</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="changeColor('#00f0ff', '#0044ff')" class="p-2 rounded-lg bg-cyan-950 border border-cyan-500/50 text-cyan-400 text-xs flex flex-col items-center hover:bg-cyan-900/30 transition">
+                                    <span class="w-3 h-3 rounded-full bg-cyan-400 mb-1"></span>
+                                    <span>高能青蓝</span>
+                                </button>
+                                <button onclick="changeColor('#3b82f6', '#1d4ed8')" class="p-2 rounded-lg bg-blue-950/40 border border-blue-900/30 text-blue-400 text-xs flex flex-col items-center hover:bg-blue-900/30 transition">
+                                    <span class="w-3 h-3 rounded-full bg-blue-500 mb-1"></span>
+                                    <span>深海极蓝</span>
+                                </button>
+                                <button onclick="changeColor('#a855f7', '#6366f1')" class="p-2 rounded-lg bg-purple-950/40 border border-purple-900/30 text-purple-400 text-xs flex flex-col items-center hover:bg-purple-900/30 transition">
+                                    <span class="w-3 h-3 rounded-full bg-purple-500 mb-1"></span>
+                                    <span>未来幻紫</span>
+                                </button>
+                                <button onclick="changeColor('#10b981', '#047857')" class="p-2 rounded-lg bg-emerald-950/40 border border-emerald-900/30 text-emerald-400 text-xs flex flex-col items-center hover:bg-emerald-900/30 transition">
+                                    <span class="w-3 h-3 rounded-full bg-emerald-500 mb-1"></span>
+                                    <span>矩阵极光</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Custom Hex Color Pickers -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">主色彩 (核心)</label>
+                                <div class="flex items-center space-x-2 bg-slate-900 border border-slate-800 rounded-lg px-2 py-1">
+                                    <input type="color" id="primaryColor" value="#00f0ff" oninput="updateParameters()" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
+                                    <input type="text" id="primaryColorText" value="#00f0ff" oninput="updateColorFromText()" class="bg-transparent text-xs w-full text-white font-mono uppercase focus:outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">副色彩 (辅助)</label>
+                                <div class="flex items-center space-x-2 bg-slate-900 border border-slate-800 rounded-lg px-2 py-1">
+                                    <input type="color" id="secondaryColor" value="#0044ff" oninput="updateParameters()" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
+                                    <input type="text" id="secondaryColorText" value="#0044ff" oninput="updateColorFromText()" class="bg-transparent text-xs w-full text-white font-mono uppercase focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Size Slider -->
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1">
+                                <span>画幅尺寸 (Dimensions)</span>
+                                <span id="lblSize" class="tech-font text-cyan-400">180px</span>
+                            </div>
+                            <input type="range" id="paramSize" min="80" max="300" value="180" oninput="updateParameters()" class="w-full accent-cyan-500 bg-slate-800 h-1.5 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- Speed Slider -->
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1">
+                                <span>自转运行周期 (Animation Cycle)</span>
+                                <span id="lblSpeed" class="tech-font text-cyan-400">1.8s</span>
+                            </div>
+                            <input type="range" id="paramSpeed" min="5" max="50" value="18" oninput="updateParameters()" class="w-full accent-cyan-500 bg-slate-800 h-1.5 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- Glow Intensity Slider -->
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1">
+                                <span>量子发光强度 (Glow Intensity)</span>
+                                <span id="lblGlow" class="tech-font text-cyan-400">15px</span>
+                            </div>
+                            <input type="range" id="paramGlow" min="0" max="30" value="15" oninput="updateParameters()" class="w-full accent-cyan-500 bg-slate-800 h-1.5 rounded-lg cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Panel: Main Preview Window & Output (7 Cols) -->
+            <div class="lg:col-span-7 flex flex-col space-y-6">
+                
+                <!-- Preview Canvas Stage -->
+                <div class="bg-slate-950/80 border border-blue-900/40 rounded-2xl p-6 neon-box-blue flex flex-col justify-between h-[450px] relative overflow-hidden backdrop-blur-md">
+                    <!-- Tech HUD decorations -->
+                    <div class="absolute top-2 left-4 text-[9px] text-cyan-500/50 uppercase tracking-widest tech-font select-none">
+                        [PREVIEW_STAGE] // SCALE_100_AUTO
+                    </div>
+                    <div class="absolute top-2 right-4 text-[9px] text-cyan-500/50 uppercase tracking-widest tech-font select-none">
+                        RENDERER: GPU_ACCELERATED
+                    </div>
+                    <div class="absolute bottom-2 left-4 text-[9px] text-cyan-500/30 uppercase tracking-widest tech-font select-none">
+                        STATUS: RENDERING_LOOP_OK
+                    </div>
+                    
+                    <!-- Action controls at top of preview -->
+                    <div class="flex justify-end space-x-3 z-10">
+                        <button onclick="toggleModal('gifExportModal', true)" class="px-4 py-2 bg-emerald-950/50 border border-emerald-500/40 hover:bg-emerald-900/60 rounded-lg text-xs font-semibold tracking-wider text-emerald-400 transition-all flex items-center shadow-lg hover:shadow-emerald-500/10">
+                            <i class="fa-solid fa-file-image mr-2"></i> 一键导出 GIF
+                        </button>
+                        <button onclick="triggerSimulatedLoad()" class="px-4 py-2 bg-cyan-950/50 border border-cyan-500/40 hover:bg-cyan-900/60 rounded-lg text-xs font-semibold tracking-wider text-cyan-400 transition-all flex items-center shadow-lg hover:shadow-cyan-500/10">
+                            <i class="fa-solid fa-expand mr-2"></i> 全屏纯净模式
+                        </button>
+                    </div>
+
+                    <!-- Centered Loader Container -->
+                    <div class="flex-1 flex flex-col items-center justify-center relative my-4">
+                        <div id="loaderPreviewBox" class="flex items-center justify-center transition-all duration-300">
+                            <!-- Selected dynamic loader will render inside here -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom helper panel with export GIF instruction and tip -->
+                    <div class="border-t border-slate-900/80 pt-4 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400">
+                        <div class="flex items-center space-x-2 mb-2 sm:mb-0">
+                            <i class="fa-solid fa-circle-info text-cyan-400/80"></i>
+                            <span>直接拷贝原生代码部署可实现 0ms 加载极速！</span>
+                        </div>
+                        <button onclick="toggleModal('gifModal', true)" class="text-cyan-400 hover:underline flex items-center font-semibold">
+                            离线版 GIF 导出技巧？<i class="fa-solid fa-circle-question ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Generator Card -->
+                <div class="bg-slate-950/80 border border-blue-900/40 rounded-2xl p-6 neon-box-blue flex-1 backdrop-blur-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-cyan-400 flex items-center">
+                            <i class="fa-solid fa-code mr-2"></i> 3. 动态网页/组件代码提取
+                        </h2>
+                        <!-- Copy alert tooltip container -->
+                        <div class="relative">
+                            <button onclick="copyCurrentCode()" class="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 rounded-lg text-xs font-bold text-slate-950 transition flex items-center shadow-md">
+                                <i class="fa-solid fa-copy mr-1.5"></i> 一键复制整合代码
+                            </button>
+                            <div id="copyToast" class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-slate-950 text-xs font-bold px-3 py-1 rounded shadow-lg pointer-events-none opacity-0 transition-opacity duration-300">
+                                复制成功!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex border-b border-slate-800 mb-4">
+                        <button onclick="switchTab('htmlTab')" id="btn-htmlTab" class="py-2 px-4 border-b-2 border-cyan-500 text-cyan-400 text-xs font-semibold tracking-wider uppercase">
+                            一键整合文件 (HTML)
+                        </button>
+                        <button onclick="switchTab('rawCssTab')" id="btn-rawCssTab" class="py-2 px-4 border-b-2 border-transparent text-slate-400 text-xs hover:text-white transition uppercase">
+                            纯 CSS / SVG 标签
+                        </button>
+                    </div>
+
+                    <!-- Code Text Area container -->
+                    <div class="relative bg-slate-900 border border-slate-800 rounded-xl p-4 h-64 overflow-y-auto">
+                        <pre id="codeSnippet" class="text-xs text-cyan-300 font-mono whitespace-pre-wrap select-all leading-relaxed"></pre>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer info panel -->
+        <footer class="mt-12 text-center text-xs text-slate-600 space-y-2 border-t border-slate-900 pt-6">
+            <p>© 2026 Nexus Loader Studio. 基于HTML5 Canvas及高性能CSS发光渲染器，适配所有科技风看板、数字孪生及科技展示网页。</p>
+            <p class="text-[10px] text-slate-700">技术原理：通过极高对比度的背景与矢量曲线偏振，能提供流畅到 144Hz 的渲染。支持无损缩放、无损渲染。</p>
+        </footer>
+    </div>
+
+    <!-- Full-Screen Load Simulator overlay (Pure Animation Stage for GIF Recording) -->
+    <div id="fullScreenSimulator" class="fixed inset-0 bg-[#02050c] z-50 flex flex-col items-center justify-center hidden grid-bg">
+        <!-- Top tech corner markers (Subtle decoration) -->
+        <div class="absolute top-8 left-8 border-t border-l border-cyan-500/10 w-8 h-8 pointer-events-none"></div>
+        <div class="absolute top-8 right-8 border-t border-r border-cyan-500/10 w-8 h-8 pointer-events-none"></div>
+        <div class="absolute bottom-8 left-8 border-b border-l border-cyan-500/10 w-8 h-8 pointer-events-none"></div>
+        <div class="absolute bottom-8 right-8 border-b border-r border-cyan-500/10 w-8 h-8 pointer-events-none"></div>
+        
+        <!-- Only Centered Loader, no text, no bars, perfect for capturing pure loops -->
+        <div id="simulatedLoaderTarget" class="scale-150 transition-transform duration-300"></div>
+
+        <!-- Exit Simulation Button (Positioned unobtrusively in top right) -->
+        <button onclick="closeSimulator()" class="absolute top-6 right-6 px-4 py-1.5 border border-slate-800 hover:border-red-500/30 hover:bg-red-950/20 text-slate-500 hover:text-red-400 rounded-lg text-xs transition-all flex items-center">
+            <i class="fa-solid fa-xmark mr-1.5"></i> 退出纯净模式 (Esc)
+        </button>
+    </div>
+
+    <!-- GIF Export Dialog -->
+    <div id="gifExportModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-950 border border-emerald-900/50 rounded-2xl max-w-lg w-full p-6 relative neon-box-blue">
+            <button onclick="toggleModal('gifExportModal', false)" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <h3 class="text-xl font-bold text-emerald-400 mb-4 flex items-center tech-font">
+                <i class="fa-solid fa-cubes mr-2 animate-pulse"></i> 导出专属 GIF 动图
+            </h3>
+            
+            <div class="space-y-4 text-sm text-slate-300">
+                <!-- Config Options -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-2 uppercase tracking-wider">背景画布设置</label>
+                        <select id="gifBgChoice" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                            <option value="theme">主题暗蓝底 (#030712)</option>
+                            <option value="black">纯黑背景 (#000000)</option>
+                            <option value="transparent">透明背景 (Transparent)</option>
+                        </select>
+                        <p class="text-[10px] text-slate-500 mt-1">注：透明GIF因1-bit限制可能导致霓虹边缘发虚。</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-2 uppercase tracking-wider">循环帧率品质</label>
+                        <select id="gifFrameCount" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                            <option value="30" selected>30 帧 (体积平衡，推荐)</option>
+                            <option value="45">45 帧 (丝滑流畅)</option>
+                            <option value="60">60 帧 (超清高模)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Live Info Alert -->
+                <div class="p-3 bg-blue-950/20 rounded-lg border border-blue-900/40 text-xs">
+                    <p class="font-semibold text-cyan-300 flex items-center">
+                        <i class="fa-solid fa-clock-rotate-left mr-1"></i> 无损完美循环渲染
+                    </p>
+                    <p class="text-slate-400 mt-1">
+                        系统将以当前大小 (<span id="gifSizeText" class="text-white font-semibold">180px</span>)、以及周期时间 (<span id="gifSpeedText" class="text-white font-semibold">1.8s</span>) 的动画频率为您定制闭合环，彻底杜绝帧率衔接不平滑的问题。
+                    </p>
+                </div>
+
+                <!-- Progress container -->
+                <div id="gifExportProgressContainer" class="hidden space-y-2 mt-4 pt-2 border-t border-slate-900">
+                    <div class="flex justify-between text-xs tech-font">
+                        <span id="gifExportProgressText" class="text-emerald-400">正在初始化渲染队列...</span>
+                    </div>
+                    <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                        <div id="gifExportProgressBar" class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full w-0 transition-all duration-100"></div>
+                    </div>
+                </div>
+
+                <!-- Export Action Buttons -->
+                <div class="flex space-x-3 mt-6 pt-4 border-t border-slate-900">
+                    <button onclick="startGifExport()" class="flex-1 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 rounded-lg text-xs font-bold tracking-wider transition-all shadow-lg hover:shadow-emerald-500/20 flex items-center justify-center">
+                        <i class="fa-solid fa-gears mr-1.5"></i> 开始生成 GIF
+                    </button>
+                    <a id="gifDownloadAction" class="hidden flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-lg text-xs font-bold tracking-wider text-center transition-all flex items-center justify-center cursor-pointer shadow-lg hover:shadow-cyan-500/20">
+                        <i class="fa-solid fa-download mr-1.5"></i> 下载生成的 GIF
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GIF Export Tutorial Dialog -->
+    <div id="gifModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-950 border border-blue-900/50 rounded-2xl max-w-2xl w-full p-6 relative neon-box-blue">
+            <button onclick="toggleModal('gifModal', false)" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <h3 class="text-xl font-bold text-cyan-400 mb-4 flex items-center tech-font">
+                <i class="fa-solid fa-file-video mr-2"></i> 经典离线录制指南
+            </h3>
+            
+            <div class="space-y-4 text-sm text-slate-300">
+                <div class="p-3 bg-blue-950/20 rounded-lg border border-blue-900/40">
+                    <p class="font-bold text-cyan-300">💡 我们推荐直接在浏览器中使用一键导出功能！</p>
+                    <p class="text-xs text-slate-400 mt-1">
+                        如果您需要离线、无网环境下进行极致录屏捕获，推荐阅读此指引。
+                    </p>
+                </div>
+                
+                <h4 class="font-semibold text-white mt-4 border-l-2 border-cyan-400 pl-2">离线无网高级抓轨方案：</h4>
+                
+                <ol class="list-decimal list-inside space-y-2.5 text-xs text-slate-400">
+                    <li>
+                        <strong class="text-slate-200">点击“全屏纯净模式”</strong> 按钮，让动画完全铺满无文字干扰环境。
+                    </li>
+                    <li>
+                        <strong class="text-slate-200">配置您专属的录屏软件</strong> （推荐使用开源免费的 <strong class="text-cyan-400">ScreenToGif</strong> 或 <strong class="text-cyan-400">OBS Studio</strong>）。
+                    </li>
+                    <li>
+                        在录制器中，锁定中心 $200\text{px} \times 200\text{px}$ 正方形录像范围，设置帧率为 <strong class="text-cyan-400">60 FPS</strong>。
+                    </li>
+                    <li>
+                        录制一整轮动画运转周期（如：1.8秒），并在剪辑轨道中完美掐头去尾，即可导出循环完美的无损文件！
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                <button onclick="toggleModal('gifModal', false)" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-semibold text-slate-950">
+                    明白并返回
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script core -->
+    <script>
+        // System variables & State
+        let currentStyle = 1;
+        let selectedPrimaryColor = '#00f0ff';
+        let selectedSecondaryColor = '#0044ff';
+        let customSize = 180;
+        let customSpeed = 1.8; // seconds per rotation
+        let glowIntensity = 15; // px glow
+        let activeTab = 'htmlTab';
+
+        let canvasAnimationId = null;
+
+        // On document ready
+        window.onload = function() {
+            // Set default styling values in DOM
+            updateParameters();
+            
+            // Listen for Escape key to close full-screen mode
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSimulator();
+                }
+            });
+        }
+
+        // Switch styles helper
+        function selectStyle(styleId) {
+            currentStyle = styleId;
+            
+            // Toggle active visual class on buttons
+            for(let i=1; i<=5; i++) {
+                const btn = document.getElementById(`btn-style-${i}`);
+                if (btn) {
+                    if (i === styleId) {
+                        btn.className = "w-full flex items-center justify-between p-4 rounded-xl border border-blue-900/40 bg-blue-950/20 text-left transition-all hover:bg-blue-900/20 hover:border-cyan-500/50 active-style-btn";
+                        btn.querySelector('i.fa-chevron-right').className = "fa-solid fa-chevron-right text-xs text-cyan-400";
+                    } else {
+                        btn.className = "w-full flex items-center justify-between p-4 rounded-xl border border-transparent bg-slate-900/40 text-left transition-all hover:bg-blue-900/20 hover:border-cyan-500/50";
+                        btn.querySelector('i.fa-chevron-right').className = "fa-solid fa-chevron-right text-xs text-slate-600";
+                    }
+                }
+            }
+            
+            // Redraw everything
+            renderSelectedLoader();
+        }
+
+        // Change Preset Color Schemes quickly
+        function changeColor(prim, sec) {
+            document.getElementById('primaryColor').value = prim;
+            document.getElementById('primaryColorText').value = prim;
+            document.getElementById('secondaryColor').value = sec;
+            document.getElementById('secondaryColorText').value = sec;
+            updateParameters();
+        }
+
+        // Synchronize manual text hex inputs with color pickers
+        function updateColorFromText() {
+            const pText = document.getElementById('primaryColorText').value;
+            const sText = document.getElementById('secondaryColorText').value;
+            
+            // Simple validation
+            if (/^#[0-9A-F]{6}$/i.test(pText)) {
+                document.getElementById('primaryColor').value = pText;
+            }
+            if (/^#[0-9A-F]{6}$/i.test(sText)) {
+                document.getElementById('secondaryColor').value = sText;
+            }
+            updateParameters();
+        }
+
+        // Fetch values from DOM controls and refresh visuals
+        function updateParameters() {
+            selectedPrimaryColor = document.getElementById('primaryColor').value;
+            selectedSecondaryColor = document.getElementById('secondaryColor').value;
+            
+            // Sync up inputs text
+            document.getElementById('primaryColorText').value = selectedPrimaryColor;
+            document.getElementById('secondaryColorText').value = selectedSecondaryColor;
+
+            // Size parse
+            customSize = parseInt(document.getElementById('paramSize').value);
+            document.getElementById('lblSize').textContent = `${customSize}px`;
+            document.getElementById('gifSizeText').textContent = `${customSize}px`;
+
+            // Speed parse (Slider yields 5 to 50, map to 0.5s - 5.0s where smaller = faster)
+            const speedSliderVal = parseInt(document.getElementById('paramSpeed').value);
+            customSpeed = (speedSliderVal / 10).toFixed(1);
+            document.getElementById('lblSpeed').textContent = `${customSpeed}s`;
+            document.getElementById('gifSpeedText').textContent = `${customSpeed}s`;
+
+            // Glow parse
+            glowIntensity = parseInt(document.getElementById('paramGlow').value);
+            document.getElementById('lblGlow').textContent = `${glowIntensity}px`;
+
+            // Trigger actual rendering updates
+            renderSelectedLoader();
+        }
+
+        // Toggle Dialog Modals
+        function toggleModal(modalId, visible) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                if (visible) {
+                    modal.classList.remove('hidden');
+                    // Reset GIF Export Progress UI when opening export modal
+                    if (modalId === 'gifExportModal') {
+                        document.getElementById('gifExportProgressContainer').classList.add('hidden');
+                        document.getElementById('gifDownloadAction').classList.add('hidden');
+                    }
+                } else {
+                    modal.classList.add('hidden');
+                }
+            }
+        }
+
+        // Clean up standard canvas animations to avoid frame leaks
+        function stopCanvasAnimation() {
+            if (canvasAnimationId) {
+                cancelAnimationFrame(canvasAnimationId);
+                canvasAnimationId = null;
+            }
+        }
+
+        // Main router that injects HTML/SVG/Canvas loaders depending on selected style
+        function renderSelectedLoader() {
+            stopCanvasAnimation();
+            const container = document.getElementById('loaderPreviewBox');
+            container.innerHTML = '';
+            
+            // Style logic switch
+            switch (currentStyle) {
+                case 1:
+                    renderStyle1(container);
+                    break;
+                case 2:
+                    renderStyle2(container);
+                    break;
+                case 3:
+                    renderStyle3(container);
+                    break;
+                case 4:
+                    renderStyle4(container);
+                    break;
+                case 5:
+                    renderStyle5(container);
+                    break;
+            }
+
+            // Sync dynamic template code output
+            generateDynamicCode();
+        }
+
+        // ==========================================
+        // RENDER METHOD 1: Concentric SVG Ring Tracker
+        // ==========================================
+        function renderStyle1(target) {
+            const svgContent = `
+                <svg width="${customSize}" height="${customSize}" viewBox="0 0 100 100" class="drop-shadow-[0_0_${glowIntensity}px_${selectedPrimaryColor}]">
+                    <!-- Outermost Ring -->
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="${selectedPrimaryColor}" stroke-width="2" stroke-dasharray="210 70" class="spin-cw" style="--speed: ${customSpeed}s; transform-origin: 50px 50px; opacity: 0.8;"></circle>
+                    <!-- Mid Dotted Tech-Ring -->
+                    <circle cx="50" cy="50" r="36" fill="none" stroke="${selectedSecondaryColor}" stroke-width="1.5" stroke-dasharray="10 15 30 15 10 30" class="spin-ccw" style="--speed: ${customSpeed * 1.5}s; transform-origin: 50px 50px; opacity: 0.9;"></circle>
+                    <!-- Small Orbit Dot Ring -->
+                    <circle cx="50" cy="50" r="28" fill="none" stroke="${selectedPrimaryColor}" stroke-width="3" stroke-dasharray="5 45" class="spin-cw" style="--speed: ${customSpeed * 0.8}s; transform-origin: 50px 50px;"></circle>
+                    <!-- Central core pulse circle -->
+                    <circle cx="50" cy="50" r="6" fill="${selectedPrimaryColor}" class="animate-pulse" style="animation-duration: 1.5s"></circle>
+                </svg>
+            `;
+            target.innerHTML = svgContent;
+        }
+
+        // ==========================================
+        // RENDER METHOD 2: Tactical Sonar Radar (Canvas)
+        // ==========================================
+        function renderStyle2(target) {
+            const canvas = document.createElement('canvas');
+            canvas.width = customSize;
+            canvas.height = customSize;
+            canvas.style.filter = `drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor})`;
+            target.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            let angle = 0;
+
+            function drawRadar() {
+                drawStyle2Frame(ctx, angle / (Math.PI * 2), canvas.width, canvas.height, 'rgba(3, 7, 18, 0)');
+                angle += (Math.PI * 2) / (customSpeed * 60);
+                if (angle >= Math.PI * 2) angle = 0;
+                canvasAnimationId = requestAnimationFrame(drawRadar);
+            }
+            drawRadar();
+        }
+
+        // Static rendering for frame capturing (Radar)
+        function drawStyle2Frame(ctx, progress, width, height, bgColor) {
+            ctx.clearRect(0, 0, width, height);
+            if (bgColor !== 'transparent') {
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, width, height);
+            }
+            const cx = width / 2;
+            const cy = height / 2;
+            const radius = Math.min(cx, cy) - 5;
+            const angle = progress * Math.PI * 2;
+
+            // 1. Draw concentric background reference radars
+            ctx.strokeStyle = selectedSecondaryColor;
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 0.2;
+            
+            ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.stroke();
+            ctx.beginPath(); ctx.arc(cx, cy, radius * 0.66, 0, Math.PI * 2); ctx.stroke();
+            ctx.beginPath(); ctx.arc(cx, cy, radius * 0.33, 0, Math.PI * 2); ctx.stroke();
+
+            // Crosshairs lines
+            ctx.beginPath();
+            ctx.moveTo(cx - radius, cy); ctx.lineTo(cx + radius, cy);
+            ctx.moveTo(cx, cy - radius); ctx.lineTo(cx, cy + radius);
+            ctx.stroke();
+
+            // 2. Draw sweeping radar glow path (Gradient sector)
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(angle);
+            
+            const scanAngle = Math.PI / 3; 
+            ctx.fillStyle = selectedPrimaryColor;
+            for (let i = 0; i < 60; i++) {
+                const stepAngle = (scanAngle / 60) * i;
+                ctx.globalAlpha = (i / 60) * 0.5; // Fades smoothly trailing
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, radius, -stepAngle, -stepAngle + 0.02);
+                ctx.closePath();
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // 3. Blinking Outer sweep indicators
+            ctx.strokeStyle = selectedPrimaryColor;
+            ctx.globalAlpha = 0.8;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, angle - 0.2, angle);
+            ctx.stroke();
+
+            // Central high-tech core node
+            ctx.fillStyle = selectedPrimaryColor;
+            ctx.globalAlpha = 1.0;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // ==========================================
+        // RENDER METHOD 3: Quantum Hexagonal Core (CSS)
+        // ==========================================
+        function renderStyle3(target) {
+            const hexContent = `
+                <div class="relative flex items-center justify-center" style="width: ${customSize}px; height: ${customSize}px;">
+                    <!-- Outer Hexagon Wrapper -->
+                    <svg viewBox="0 0 100 100" class="absolute inset-0 spin-cw drop-shadow-[0_0_${glowIntensity}px_${selectedPrimaryColor}]" style="--speed: ${customSpeed * 1.5}s">
+                        <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="${selectedPrimaryColor}" stroke-width="2" stroke-dasharray="30 15 20 15" />
+                    </svg>
+                    <!-- Inner Hexagon pulsing -->
+                    <svg viewBox="0 0 100 100" class="absolute inset-0 hex-pulse-anim drop-shadow-[0_0_${glowIntensity * 0.6}px_${selectedSecondaryColor}]" style="width: 70%; height: 70%; margin: 15%; --speed: ${customSpeed}s">
+                        <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="${selectedSecondaryColor}" stroke-width="4" stroke-dasharray="10 5" />
+                    </svg>
+                    <!-- Deep glowing center core indicator -->
+                    <div class="w-4 h-4 rounded-full bg-white animate-pulse" style="box-shadow: 0 0 15px ${selectedPrimaryColor}; animation-duration: 1s"></div>
+                </div>
+            `;
+            target.innerHTML = hexContent;
+        }
+
+        // ==========================================
+        // RENDER METHOD 4: Cosmic Particle Vortex (Canvas)
+        // ==========================================
+        function renderStyle4(target) {
+            const canvas = document.createElement('canvas');
+            canvas.width = customSize;
+            canvas.height = customSize;
+            canvas.style.filter = `drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor})`;
+            target.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            let progress = 0;
+
+            function drawParticles() {
+                drawStyle4Frame(ctx, progress, canvas.width, canvas.height, 'rgba(3, 7, 18, 0.15)');
+                progress += 1 / (customSpeed * 60);
+                if (progress >= 1.0) progress = 0;
+                canvasAnimationId = requestAnimationFrame(drawParticles);
+            }
+            drawParticles();
+        }
+
+        // Static rendering for frame capturing (Vortex) - Uses mathematical seed loop for perfect GIF exports
+        function drawStyle4Frame(ctx, progress, width, height, bgColor) {
+            if (bgColor === 'rgba(3, 7, 18, 0.15)' || bgColor === 'transparent') {
+                ctx.clearRect(0, 0, width, height);
+            } else {
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            const cx = width / 2;
+            const cy = height / 2;
+            const maxRadius = width / 2 - 10;
+
+            // Central core glow
+            ctx.fillStyle = selectedPrimaryColor;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Loop particle physical loops
+            const particleCount = 45;
+            for (let i = 0; i < particleCount; i++) {
+                const seedAngle = (i * 17) % (Math.PI * 2);
+                const seedSpeed = 0.5 + ((i * 13) % 10) / 10; 
+                
+                const itemProgress = (progress * seedSpeed + (i / particleCount)) % 1.0;
+                const radius = (1.0 - itemProgress) * maxRadius + 8;
+                const angle = seedAngle + itemProgress * Math.PI * 3;
+
+                const x = cx + Math.cos(angle) * radius;
+                const y = cy + Math.sin(angle) * radius;
+
+                const size = 1 + ((i * 7) % 3);
+                const alpha = Math.sin(itemProgress * Math.PI) * 0.8;
+
+                ctx.fillStyle = selectedPrimaryColor;
+                ctx.globalAlpha = alpha;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+        }
+
+        // ==========================================
+        // RENDER METHOD 5: Futuristic DNA Helix (Canvas)
+        // ==========================================
+        function renderStyle5(target) {
+            const canvas = document.createElement('canvas');
+            canvas.width = customSize;
+            canvas.height = customSize;
+            canvas.style.filter = `drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor})`;
+            target.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            let progress = 0;
+
+            function drawHelix() {
+                drawStyle5Frame(ctx, progress, canvas.width, canvas.height, 'rgba(3, 7, 18, 0)');
+                progress += 1 / (customSpeed * 60);
+                if (progress >= 1.0) progress = 0;
+                canvasAnimationId = requestAnimationFrame(drawHelix);
+            }
+            drawHelix();
+        }
+
+        // Static rendering for frame capturing (DNA Helix)
+        function drawStyle5Frame(ctx, progress, width, height, bgColor) {
+            ctx.clearRect(0, 0, width, height);
+            if (bgColor !== 'transparent') {
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, width, height);
+            }
+            const cx = width / 2;
+            const cy = height / 2;
+            const length = width * 0.75;
+            const halfLen = length / 2;
+            const rotation = progress * Math.PI * 2;
+
+            ctx.lineWidth = 1.5;
+
+            for (let i = 0; i < 14; i++) {
+                const ratio = i / 13;
+                const xOffset = cx - halfLen + ratio * length;
+                
+                const phase1 = ratio * Math.PI * 2.5 + rotation;
+                const phase2 = ratio * Math.PI * 2.5 + rotation + Math.PI;
+
+                const y1 = cy + Math.sin(phase1) * (height * 0.22);
+                const y2 = cy + Math.sin(phase2) * (height * 0.22);
+
+                const z1 = Math.cos(phase1);
+                const z2 = Math.cos(phase2);
+
+                // 1. Connection line ladder rung
+                ctx.strokeStyle = selectedSecondaryColor;
+                ctx.globalAlpha = Math.min(0.2, Math.max(0.05, (z1 + z2 + 2) / 4));
+                ctx.beginPath();
+                ctx.moveTo(xOffset, y1);
+                ctx.lineTo(xOffset, y2);
+                ctx.stroke();
+
+                // 2. Plotting Strand 1 Node Dot
+                const size1 = Math.max(1.5, (z1 + 1) * 2.5 + 1.5);
+                ctx.fillStyle = selectedPrimaryColor;
+                ctx.globalAlpha = (z1 + 1) / 2 * 0.8 + 0.2;
+                ctx.beginPath();
+                ctx.arc(xOffset, y1, size1, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 3. Plotting Strand 2 Node Dot
+                const size2 = Math.max(1.5, (z2 + 1) * 2.5 + 1.5);
+                ctx.fillStyle = selectedSecondaryColor;
+                ctx.globalAlpha = (z2 + 1) / 2 * 0.8 + 0.2;
+                ctx.beginPath();
+                ctx.arc(xOffset, y2, size2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+        }
+
+        // ==========================================
+        // GIF DETERMINISTIC RENDER FOR EXPORTER
+        // ==========================================
+        function getStyle1SVG(progress, bgColor) {
+            const angleCw = progress * 360;
+            const angleCcw = 360 - (progress * 360);
+            const angleCwFast = (progress * 360 * 1.25) % 360;
+            const scalePulse = 1 + Math.sin(progress * Math.PI * 2) * 0.1;
+            const backgroundFill = bgColor === 'transparent' ? 'none' : bgColor;
+            const bgRect = bgColor === 'transparent' ? '' : `<rect width="100" height="100" fill="${backgroundFill}"/>`;
+            
+            return `
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                ${bgRect}
+                <g style="filter: drop-shadow(0 0 ${glowIntensity/2}px ${selectedPrimaryColor});">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="${selectedPrimaryColor}" stroke-width="2" stroke-dasharray="210 70" transform="rotate(${angleCw} 50 50)"></circle>
+                    <circle cx="50" cy="50" r="36" fill="none" stroke="${selectedSecondaryColor}" stroke-width="1.5" stroke-dasharray="10 15 30 15 10 30" transform="rotate(${angleCcw} 50 50)"></circle>
+                    <circle cx="50" cy="50" r="28" fill="none" stroke="${selectedPrimaryColor}" stroke-width="3" stroke-dasharray="5 45" transform="rotate(${angleCwFast} 50 50)"></circle>
+                    <circle cx="50" cy="50" r="6" fill="${selectedPrimaryColor}" transform="scale(${scalePulse}) translate(${50 - 50*scalePulse} ${50 - 50*scalePulse})"></circle>
+                </g>
+            </svg>`;
+        }
+
+        function getStyle3SVG(progress, bgColor) {
+            const angleCw = progress * 360;
+            const anglePulse = 360 - (progress * 360);
+            const scalePulse = 1 + Math.sin(progress * Math.PI * 2) * 0.15;
+            const innerScale = 0.7 * scalePulse;
+            const translateInner = (100 - 100 * innerScale) / 2;
+            const backgroundFill = bgColor === 'transparent' ? 'none' : bgColor;
+            const bgRect = bgColor === 'transparent' ? '' : `<rect width="100" height="100" fill="${backgroundFill}"/>`;
+
+            return `
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                ${bgRect}
+                <g style="filter: drop-shadow(0 0 ${glowIntensity/2}px ${selectedPrimaryColor});">
+                    <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="${selectedPrimaryColor}" stroke-width="2" stroke-dasharray="30 15" transform="rotate(${angleCw} 50 50)" />
+                    <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="${selectedSecondaryColor}" stroke-width="4" stroke-dasharray="10 5" transform="translate(${translateInner} ${translateInner}) scale(${innerScale}) rotate(${anglePulse} 50 50)" />
+                    <circle cx="50" cy="50" r="8" fill="#ffffff" style="filter: drop-shadow(0 0 5px ${selectedPrimaryColor});"></circle>
+                </g>
+            </svg>`;
+        }
+
+        // Robust dynamic script loader with multi-CDN fallback
+        async function ensureGifshotLoaded() {
+            if (typeof gifshot !== 'undefined') {
+                return true;
+            }
+            
+            // Priority list of global reliable CDNs (combining Cloudflare, JSDelivr, and Unpkg)
+            const cdns = [
+                'https://cdn.jsdelivr.net/npm/gifshot@0.4.5/build/gifshot.min.js',
+                'https://unpkg.com/gifshot@0.4.5/build/gifshot.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/gifshot/0.4.5/gifshot.min.js'
+            ];
+
+            for (let url of cdns) {
+                try {
+                    await new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = url;
+                        script.async = true;
+                        script.onload = () => resolve();
+                        script.onerror = () => reject(new Error('Load failed'));
+                        document.head.appendChild(script);
+                    });
+                    if (typeof gifshot !== 'undefined') {
+                        return true;
+                    }
+                } catch (e) {
+                    console.warn(`Failed to load gifshot from CDN: ${url}, trying fallback...`);
+                }
+            }
+            throw new Error('所有录制源连接超时，请检查网络！');
+        }
+
+        async function startGifExport() {
+            const bgChoice = document.getElementById('gifBgChoice').value;
+            const totalFrames = parseInt(document.getElementById('gifFrameCount').value) || 30;
+            
+            // Map configuration background colors
+            let exportBgColor = '#030712';
+            if (bgChoice === 'black') exportBgColor = '#000000';
+            if (bgChoice === 'transparent') exportBgColor = 'transparent';
+
+            const progressContainer = document.getElementById('gifExportProgressContainer');
+            const progressBar = document.getElementById('gifExportProgressBar');
+            const progressText = document.getElementById('gifExportProgressText');
+            const downloadBtn = document.getElementById('gifDownloadAction');
+
+            progressContainer.classList.remove('hidden');
+            downloadBtn.classList.add('hidden');
+            progressBar.style.width = `0%`;
+            progressText.textContent = `⚙️ 正在校验并热加载 GIF 录制引擎...`;
+
+            // Ensure gifshot library is dynamically resolved and defined
+            try {
+                await ensureGifshotLoaded();
+            } catch (err) {
+                progressText.textContent = `⚠️ 录制线程崩溃: ${err.message}`;
+                progressBar.style.width = `100%`;
+                progressBar.className = "bg-red-500 h-full transition-all duration-100";
+                return;
+            }
+
+            // Restore progress bar styling
+            progressBar.className = "bg-gradient-to-r from-emerald-500 to-cyan-400 h-full transition-all duration-100";
+
+            const frames = [];
+            const exportSize = customSize;
+
+            // Create offline canvas for rendering exact frame sequences
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = exportSize;
+            tempCanvas.height = exportSize;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            try {
+                for (let i = 0; i < totalFrames; i++) {
+                    const progress = i / totalFrames;
+                    
+                    // Progress calculations (Render phase takes up to 60%)
+                    const percent = Math.round((i / totalFrames) * 60); 
+                    progressBar.style.width = `${percent}%`;
+                    progressText.textContent = `⚡ 正在渲染高清矢量帧: ${i + 1} / ${totalFrames} (${percent}%)`;
+
+                    // Reset Canvas
+                    tempCtx.clearRect(0, 0, exportSize, exportSize);
+                    
+                    if (currentStyle === 1 || currentStyle === 3) {
+                        // XML parsing for nested SVG animations
+                        const svgString = currentStyle === 1 ? getStyle1SVG(progress, exportBgColor) : getStyle3SVG(progress, exportBgColor);
+                        const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                        const url = URL.createObjectURL(svgBlob);
+                        
+                        await new Promise((resolve) => {
+                            const img = new Image();
+                            img.onload = () => {
+                                tempCtx.drawImage(img, 0, 0, exportSize, exportSize);
+                                URL.revokeObjectURL(url);
+                                resolve();
+                            };
+                            img.src = url;
+                        });
+                    } else if (currentStyle === 2) {
+                        drawStyle2Frame(tempCtx, progress, exportSize, exportSize, exportBgColor);
+                    } else if (currentStyle === 4) {
+                        drawStyle4Frame(tempCtx, progress, exportSize, exportSize, exportBgColor);
+                    } else if (currentStyle === 5) {
+                        drawStyle5Frame(tempCtx, progress, exportSize, exportSize, exportBgColor);
+                    }
+
+                    // Convert current viewport matrix to secure dynamic binary stream data URL
+                    frames.push(tempCanvas.toDataURL('image/png'));
+                }
+
+                progressText.textContent = `📦 正在编译与极限压缩 GIF 动态图...`;
+                progressBar.style.width = `80%`;
+
+                // Use gifshot compiler with exact parameters matching custom timing
+                gifshot.createGIF({
+                    images: frames,
+                    gifWidth: exportSize,
+                    gifHeight: exportSize,
+                    interval: customSpeed / totalFrames, 
+                    numFrames: totalFrames,
+                    transparent: bgChoice === 'transparent' ? '0x030712' : null, // Handle alpha matrix
+                    numWorkers: 2
+                }, function (obj) {
+                    if (!obj.error) {
+                        const image = obj.image;
+                        progressBar.style.width = `100%`;
+                        progressText.textContent = `🎉 恭喜！GIF 完美合成，点击下载！`;
+                        
+                        // Activate download trigger link
+                        downloadBtn.href = image;
+                        downloadBtn.download = `tech-blue-loader-${currentStyle}-${exportSize}px.gif`;
+                        downloadBtn.classList.remove('hidden');
+                    } else {
+                        progressText.textContent = `⚠️ 错误: ${obj.errorMsg}`;
+                    }
+                });
+            } catch (err) {
+                progressText.textContent = `⚠️ 渲染线程崩溃: ${err.message}`;
+            }
+        }
+
+        // ==========================================
+        // CODE GENERATION MODULE & EXPORT TEMPLATES
+        // ==========================================
+        function switchTab(tabId) {
+            activeTab = tabId;
+            document.getElementById('btn-htmlTab').className = tabId === 'htmlTab' 
+                ? "py-2 px-4 border-b-2 border-cyan-500 text-cyan-400 text-xs font-semibold tracking-wider uppercase"
+                : "py-2 px-4 border-b-2 border-transparent text-slate-400 text-xs hover:text-white transition uppercase";
+            document.getElementById('btn-rawCssTab').className = tabId === 'rawCssTab'
+                ? "py-2 px-4 border-b-2 border-cyan-500 text-cyan-400 text-xs font-semibold tracking-wider uppercase"
+                : "py-2 px-4 border-b-2 border-transparent text-slate-400 text-xs hover:text-white transition uppercase";
+
+            generateDynamicCode();
+        }
+
+        // Compiling active parameters into formatted ready-to-use production codes
+        function generateDynamicCode() {
+            const outputBox = document.getElementById('codeSnippet');
+            let template = '';
+
+            if (activeTab === 'htmlTab') {
+                template = generateUnifiedHTMLCode();
+            } else {
+                template = generateRawCodeBlock();
+            }
+
+            outputBox.textContent = template;
+        }
+
+        // Generates an independent single index.html template file
+        function generateUnifiedHTMLCode() {
+            let styleSpecificStyles = '';
+            let innerLoaderHTML = '';
+            let jsInitBlock = '';
+
+            // Inject the matching loader code segment
+            if (currentStyle === 1) {
+                styleSpecificStyles = `
+        /* Triple track concentric animation */
+        @keyframes spinCw { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spinCcw { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
+        .spin-cw { animation: spinCw ${customSpeed}s linear infinite; transform-origin: 50px 50px; }
+        .spin-ccw { animation: spinCcw ${customSpeed * 1.5}s linear infinite; transform-origin: 50px 50px; }`;
+                
+                innerLoaderHTML = `
+        <!-- SVG Ring Loader -->
+        <svg width="${customSize}" height="${customSize}" viewBox="0 0 100 100" style="filter: drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor});">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="${selectedPrimaryColor}" stroke-width="2" stroke-dasharray="210 70" class="spin-cw"></circle>
+            <circle cx="50" cy="50" r="36" fill="none" stroke="${selectedSecondaryColor}" stroke-width="1.5" stroke-dasharray="10 15 30 15 10 30" class="spin-ccw"></circle>
+            <circle cx="50" cy="50" r="28" fill="none" stroke="${selectedPrimaryColor}" stroke-width="3" stroke-dasharray="5 45" class="spin-cw" style="animation-duration: ${customSpeed * 0.8}s"></circle>
+            <circle cx="50" cy="50" r="6" fill="${selectedPrimaryColor}" style="animation: pulse 1.5s ease-in-out infinite; transform-origin: center;"></circle>
+        </svg>
+                `;
+            } else if (currentStyle === 2) {
+                innerLoaderHTML = `<canvas id="radarCanvas" width="${customSize}" height="${customSize}" style="filter: drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor});"></canvas>`;
+                jsInitBlock = `
+        // Radar Sonar Script Core
+        const canvas = document.getElementById('radarCanvas');
+        const ctx = canvas.getContext('2d');
+        let angle = 0;
+        
+        function drawRadar() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const radius = Math.min(cx, cy) - 5;
+            
+            ctx.strokeStyle = '${selectedSecondaryColor}';
+            ctx.lineWidth = 1; ctx.globalAlpha = 0.2;
+            ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.stroke();
+            ctx.beginPath(); ctx.arc(cx, cy, radius * 0.66, 0, Math.PI * 2); ctx.stroke();
+            ctx.beginPath(); ctx.arc(cx, cy, radius * 0.33, 0, Math.PI * 2); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(cx - radius, cy); ctx.lineTo(cx + radius, cy); ctx.moveTo(cx, cy - radius); ctx.lineTo(cx, cy + radius); ctx.stroke();
+            
+            ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
+            const scanAngle = Math.PI / 3; ctx.fillStyle = '${selectedPrimaryColor}';
+            for (let i = 0; i < 60; i++) {
+                const stepAngle = (scanAngle / 60) * i;
+                ctx.globalAlpha = (i / 60) * 0.5;
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, radius, -stepAngle, -stepAngle + 0.02); ctx.closePath(); ctx.fill();
+            }
+            ctx.restore();
+            
+            ctx.strokeStyle = '${selectedPrimaryColor}'; ctx.globalAlpha = 0.8; ctx.lineWidth = 2.5;
+            ctx.beginPath(); ctx.arc(cx, cy, radius, angle - 0.2, angle); ctx.stroke();
+            ctx.fillStyle = '${selectedPrimaryColor}'; ctx.globalAlpha = 1.0; ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+            
+            angle += (Math.PI * 2) / (${customSpeed} * 60);
+            requestAnimationFrame(drawRadar);
+        }
+        drawRadar();
+                `;
+            } else if (currentStyle === 3) {
+                styleSpecificStyles = `
+        @keyframes spinCw { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulseScale { 0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; } 50% { transform: scale(1.1) rotate(180deg); opacity: 1; } }
+        .spin-cw { animation: spinCw ${customSpeed * 1.5}s linear infinite; }
+        .hex-pulse { animation: pulseScale ${customSpeed}s ease-in-out infinite; transform-origin: center; }`;
+                
+                innerLoaderHTML = `
+        <!-- Hexagon Core Matrix -->
+        <div style="position: relative; width: ${customSize}px; height: ${customSize}px; display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 100 100" class="spin-cw" style="position: absolute; inset: 0; filter: drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor});">
+                <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="${selectedPrimaryColor}" stroke-width="2" stroke-dasharray="30 15" />
+            </svg>
+            <svg viewBox="0 0 100 100" class="hex-pulse" style="position: absolute; inset: 0; width: 70%; height: 70%; margin: 15%; filter: drop-shadow(0 0 ${glowIntensity * 0.6}px ${selectedSecondaryColor});">
+                <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="${selectedSecondaryColor}" stroke-width="4" stroke-dasharray="10 5" />
+            </svg>
+            <div style="width: 16px; height: 16px; border-radius: 50%; background: #ffffff; box-shadow: 0 0 15px ${selectedPrimaryColor};"></div>
+        </div>
+                `;
+            } else if (currentStyle === 4) {
+                innerLoaderHTML = `<canvas id="vortexCanvas" width="${customSize}" height="${customSize}" style="filter: drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor});"></canvas>`;
+                jsInitBlock = `
+        // Particle Vortex Logic
+        const canvas = document.getElementById('vortexCanvas');
+        const ctx = canvas.getContext('2d');
+        const particles = [];
+        for (let i = 0; i < 45; i++) {
+            particles.push({
+                angle: Math.random() * Math.PI * 2,
+                radius: (Math.random() * 0.7 + 0.3) * (${customSize} / 2 - 10),
+                speed: (0.01 + Math.random() * 0.02) * (2 / ${customSpeed}),
+                size: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.8 + 0.2
+            });
+        }
+        function animate() {
+            ctx.fillStyle = 'rgba(10, 15, 30, 0.15)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width / 2, cy = canvas.height / 2;
+            ctx.fillStyle = '${selectedPrimaryColor}'; ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI * 2); ctx.fill();
+            particles.forEach(p => {
+                p.angle += p.speed; p.radius -= 0.1;
+                if (p.radius < 8) p.radius = (Math.random() * 0.3 + 0.7) * (${customSize} / 2 - 10);
+                const x = cx + Math.cos(p.angle) * p.radius, y = cy + Math.sin(p.angle) * p.radius;
+                ctx.fillStyle = '${selectedPrimaryColor}'; ctx.globalAlpha = p.opacity * ((p.radius - 8) / (${customSize} / 2));
+                ctx.beginPath(); ctx.arc(x, y, p.size, 0, Math.PI * 2); ctx.fill();
+            });
+            ctx.globalAlpha = 1.0;
+            requestAnimationFrame(animate);
+        }
+        animate();
+                `;
+            } else if (currentStyle === 5) {
+                innerLoaderHTML = `<canvas id="helixCanvas" width="${customSize}" height="${customSize}" style="filter: drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor});"></canvas>`;
+                jsInitBlock = `
+        // Double Helix Script
+        const canvas = document.getElementById('helixCanvas');
+        const ctx = canvas.getContext('2d');
+        let rotation = 0;
+        function drawHelix() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width / 2, cy = canvas.height / 2;
+            const length = ${customSize} * 0.75;
+            for (let i = 0; i < 14; i++) {
+                const ratio = i / 13;
+                const x = cx - length/2 + ratio * length;
+                const phase1 = ratio * Math.PI * 2.5 + rotation;
+                const phase2 = ratio * Math.PI * 2.5 + rotation + Math.PI;
+                const y1 = cy + Math.sin(phase1) * (${customSize} * 0.22);
+                const y2 = cy + Math.sin(phase2) * (${customSize} * 0.22);
+                const z1 = Math.cos(phase1), z2 = Math.cos(phase2);
+                
+                ctx.strokeStyle = '${selectedSecondaryColor}'; ctx.globalAlpha = Math.min(0.2, (z1+z2+2)/4);
+                ctx.beginPath(); ctx.moveTo(x, y1); ctx.lineTo(x, y2); ctx.stroke();
+                
+                ctx.fillStyle = '${selectedPrimaryColor}'; ctx.globalAlpha = (z1+1)/2 * 0.8 + 0.2;
+                ctx.beginPath(); ctx.arc(x, y1, Math.max(1.5, (z1+1)*2.5+1.5), 0, Math.PI * 2); ctx.fill();
+                
+                ctx.fillStyle = '${selectedSecondaryColor}'; ctx.globalAlpha = (z2+1)/2 * 0.8 + 0.2;
+                ctx.beginPath(); ctx.arc(x, y2, Math.max(1.5, (z2+1)*2.5+1.5), 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+            rotation += (Math.PI * 2) / (${customSpeed} * 60);
+            requestAnimationFrame(drawHelix);
+        }
+        drawHelix();
+                `;
+            }
+
+            return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科技蓝极简加载 - Pure Loader</title>
+    <style>
+        /* Modern futuristic dark overlay screen */
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #030712; display: flex; align-items: center;
+            justify-content: center; overflow: hidden;
+        }
+        #loader-overlay {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        ${styleSpecificStyles}
+    </style>
+</head>
+<body>
+
+    <div id="loader-overlay">
+        ${innerLoaderHTML.trim()}
+    </div>
+
+    <script>
+        ${jsInitBlock.trim()}
+    <\/script>
+</body>
+</html>`;
+        }
+
+        // Generates clean isolated CSS style fragments
+        function generateRawCodeBlock() {
+            if (currentStyle === 1) {
+                return `/* --- 量子轨道光环 CSS/SVG --- */
+<svg width="${customSize}" height="${customSize}" viewBox="0 0 100 100" style="filter: drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor});">
+    <circle cx="50" cy="50" r="45" fill="none" stroke="${selectedPrimaryColor}" stroke-width="2" stroke-dasharray="210 70" class="spin-cw"></circle>
+    <circle cx="50" cy="50" r="36" fill="none" stroke="${selectedSecondaryColor}" stroke-width="1.5" stroke-dasharray="10 15 30 15 10 30" class="spin-ccw"></circle>
+    <circle cx="50" cy="50" r="28" fill="none" stroke="${selectedPrimaryColor}" stroke-width="3" stroke-dasharray="5 45" class="spin-cw" style="animation-duration: ${customSpeed * 0.8}s"></circle>
+    <circle cx="50" cy="50" r="6" fill="${selectedPrimaryColor}" style="animation: pulse 1.5s ease-in-out infinite; transform-origin: center;"></circle>
+</svg>
+
+<style>
+    @keyframes spinCw { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes spinCcw { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
+    .spin-cw { animation: spinCw ${customSpeed}s linear infinite; transform-origin: 50px 50px; }
+    .spin-ccw { animation: spinCcw ${customSpeed * 1.5}s linear infinite; transform-origin: 50px 50px; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 1; } }
+</style>`;
+            } else if (currentStyle === 3) {
+                return `/* --- 量子矩阵六角 Hexagon Core --- */
+<div style="position: relative; width: ${customSize}px; height: ${customSize}px; display: flex; align-items: center; justify-content: center;">
+    <svg viewBox="0 0 100 100" class="spin-cw" style="position: absolute; inset: 0; filter: drop-shadow(0 0 ${glowIntensity}px ${selectedPrimaryColor});">
+        <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="${selectedPrimaryColor}" stroke-width="2" stroke-dasharray="30 15" />
+    </svg>
+    <svg viewBox="0 0 100 100" class="hex-pulse" style="position: absolute; inset: 0; width: 70%; height: 70%; margin: 15%; filter: drop-shadow(0 0 ${glowIntensity * 0.6}px ${selectedSecondaryColor});">
+        <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="${selectedSecondaryColor}" stroke-width="4" stroke-dasharray="10 5" transform-origin="center" />
+    </svg>
+    <div style="width: 16px; height: 16px; border-radius: 50%; background: #ffffff; box-shadow: 0 0 15px ${selectedPrimaryColor};"></div>
+</div>
+
+<style>
+    @keyframes spinCw { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes pulseScale { 0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; } 50% { transform: scale(1.1) rotate(180deg); opacity: 1; } }
+    .spin-cw { animation: spinCw ${customSpeed * 1.5}s linear infinite; }
+    .hex-pulse { animation: pulseScale ${customSpeed}s ease-in-out infinite; transform-origin: center; }
+</style>`;
+            } else {
+                return `/* 请切换到 [一键整合文件(HTML)] 选项来获取此 Canvas (${currentStyle === 2 ? '战术雷达' : currentStyle === 4 ? '星环粒子' : '双螺旋'}) 所对应的完整高性能渲染引擎代码。*/`;
+            }
+        }
+
+        // Action: Copy text area content safely inside iframes
+        function copyCurrentCode() {
+            const outputBox = document.getElementById('codeSnippet');
+            const range = document.createRange();
+            range.selectNode(outputBox);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const toast = document.getElementById('copyToast');
+                    toast.classList.remove('opacity-0');
+                    toast.classList.add('opacity-100');
+                    setTimeout(() => {
+                        toast.classList.remove('opacity-100');
+                        toast.classList.add('opacity-0');
+                    }, 2000);
+                }
+            } catch (err) {
+                // Fail-safe
+            }
+            window.getSelection().removeAllRanges();
+        }
+
+        // ==========================================
+        // SIMULATED LOADING ENVIRONMENT RUNTIME
+        // ==========================================
+        function triggerSimulatedLoad() {
+            // Stop any preview frame
+            stopCanvasAnimation();
+            
+            const simulator = document.getElementById('fullScreenSimulator');
+            const target = document.getElementById('simulatedLoaderTarget');
+            
+            simulator.classList.remove('hidden');
+            simulator.classList.add('flex');
+            target.innerHTML = '';
+
+            // Mount loader in full scale
+            if (currentStyle === 1) renderStyle1(target);
+            else if (currentStyle === 2) renderStyle2(target);
+            else if (currentStyle === 3) renderStyle3(target);
+            else if (currentStyle === 4) renderStyle4(target);
+            else if (currentStyle === 5) renderStyle5(target);
+        }
+
+        function closeSimulator() {
+            const simulator = document.getElementById('fullScreenSimulator');
+            simulator.classList.add('hidden');
+            simulator.classList.remove('flex');
+            
+            // Re-mount standard smaller loading window
+            renderSelectedLoader();
+        }
+    </script>
+</body>
+</html>
